@@ -17,20 +17,103 @@ namespace AplicacionCRUD.Models
         {
         }
 
+        public virtual DbSet<Cuenta> Cuentas { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Transaccione> Transacciones { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=sistemaUsuarios;Trusted_Connection=True;");
-            }
-        }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
+
+            modelBuilder.Entity<Cuenta>(entity =>
+            {
+                entity.HasKey(e => new { e.CodigoUsuario, e.CodigoCuenta })
+                    .HasName("PK_cuentas_1");
+
+                entity.ToTable("cuentas");
+
+                entity.Property(e => e.CodigoUsuario)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoUsuario");
+
+                entity.Property(e => e.CodigoCuenta)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoCuenta");
+
+                entity.Property(e => e.DescripcionCuenta)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnName("descripcionCuenta");
+
+                entity.HasOne(d => d.CodigoUsuarioNavigation)
+                    .WithMany(p => p.Cuenta)
+                    .HasForeignKey(d => d.CodigoUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_cuentas_usuarios");
+            });
+
+            modelBuilder.Entity<Log>(entity =>
+            {
+                entity.HasKey(e => new { e.CodigoUsuario, e.CodigoCuenta, e.LogId });
+
+                entity.ToTable("logs");
+
+                entity.Property(e => e.CodigoUsuario)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoUsuario");
+
+                entity.Property(e => e.CodigoCuenta)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoCuenta");
+
+                entity.Property(e => e.LogId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("logID");
+
+                entity.Property(e => e.FechaHora)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("fechaHora");
+
+                entity.Property(e => e.Mensaje)
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("mensaje");
+
+                entity.HasOne(d => d.Codigo)
+                    .WithMany(p => p.Logs)
+                    .HasForeignKey(d => new { d.CodigoUsuario, d.CodigoCuenta })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_logs_cuentas");
+            });
+
+            modelBuilder.Entity<Transaccione>(entity =>
+            {
+                entity.HasKey(e => new { e.CodigoUsuario, e.CodigoCuenta, e.LineaTransaccion });
+
+                entity.ToTable("transacciones");
+
+                entity.Property(e => e.CodigoUsuario)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoUsuario");
+
+                entity.Property(e => e.CodigoCuenta)
+                    .HasMaxLength(64)
+                    .HasColumnName("codigoCuenta");
+
+                entity.Property(e => e.LineaTransaccion).HasColumnName("lineaTransaccion");
+
+                entity.Property(e => e.Monto).HasColumnName("monto");
+
+                entity.HasOne(d => d.Codigo)
+                    .WithMany(p => p.Transacciones)
+                    .HasForeignKey(d => new { d.CodigoUsuario, d.CodigoCuenta })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_transacciones_cuentas");
+            });
 
             modelBuilder.Entity<Usuario>(entity =>
             {

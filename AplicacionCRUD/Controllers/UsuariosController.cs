@@ -148,5 +148,19 @@ namespace AplicacionCRUD
         {
             return _context.Usuarios.Any(e => e.CodigoUsuario == id);
         }
+
+        public bool GetCorreoUsuario(string id)
+        {
+            var email = _context.Usuarios.Find(id).Email.ToString();
+
+            if(email != "" && email != null)
+            {
+                return true;
+
+            }
+            return false;
+        }
+
+
     }
 }
