@@ -22,7 +22,7 @@ namespace AplicacionCRUD.Models
         public virtual DbSet<Transaccione> Transacciones { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
-        
+ 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
@@ -72,11 +72,11 @@ namespace AplicacionCRUD.Models
                     .ValueGeneratedOnAdd()
                     .HasColumnName("logID");
 
-                entity.Property(e => e.FechaHora)
+                entity.Property(e => e.Fecha)
                     .IsRequired()
                     .IsRowVersion()
                     .IsConcurrencyToken()
-                    .HasColumnName("fechaHora");
+                    .HasColumnName("fecha");
 
                 entity.Property(e => e.Mensaje)
                     .IsRequired()
@@ -104,7 +104,9 @@ namespace AplicacionCRUD.Models
                     .HasMaxLength(64)
                     .HasColumnName("codigoCuenta");
 
-                entity.Property(e => e.LineaTransaccion).HasColumnName("lineaTransaccion");
+                entity.Property(e => e.LineaTransaccion)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("lineaTransaccion");
 
                 entity.Property(e => e.Monto).HasColumnName("monto");
 
@@ -112,7 +114,7 @@ namespace AplicacionCRUD.Models
                     .WithMany(p => p.Transacciones)
                     .HasForeignKey(d => new { d.CodigoUsuario, d.CodigoCuenta })
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_transacciones_cuentas");
+                    .HasConstraintName("FK_transacciones_cuentas1");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
