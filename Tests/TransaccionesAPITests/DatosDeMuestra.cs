@@ -33,6 +33,7 @@ namespace Tests.TransaccionesAPITests
             dbContext.Transacciones.Add(new Transaccione { CodigoUsuario = "11111111-1", CodigoCuenta = "12345678",  Monto = 9500 });
             dbContext.Transacciones.Add(new Transaccione { CodigoUsuario = "22222222-2", CodigoCuenta = "98765432",  Monto = 15000 });
             dbContext.Transacciones.Add(new Transaccione { CodigoUsuario = "33333333-3", CodigoCuenta = "11222333",  Monto = 15000 });
+            dbContext.SaveChanges();
         }
 
     }

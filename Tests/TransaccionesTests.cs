@@ -12,7 +12,7 @@ namespace Tests
     {
 
         private DbContextOptions<sistemaUsuariosContext> options = new DbContextOptionsBuilder<sistemaUsuariosContext>()
-            .UseInMemoryDatabase(databaseName: "sistemaUsuarios")
+            .UseInMemoryDatabase(databaseName: "sistemaUsuarios_MEM_01")
             .Options;
 
         public TransaccionesTests()

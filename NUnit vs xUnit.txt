@@ -1,0 +1,9 @@
+Factor		 |	NUnit				  | xUnit
+
+Test Class	 |	[TestFixture]		  | "No existe"
+
+Test Method  | 	[Test]				  | [Fact]
+
+Setup		 |  [SetUp]	+ Constructor | Constructor
+
+"Estructura" |	"Desordenado"		  | "Ordenado"

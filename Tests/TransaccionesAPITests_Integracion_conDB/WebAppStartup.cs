@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.TransaccionesAPITests
+namespace Tests.TransaccionesAPITests_Integracion_conDB
 {
     public class WebAppStartup<TStartup> : WebApplicationFactory<Startup>
     {
@@ -19,14 +19,6 @@ namespace Tests.TransaccionesAPITests
         {
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<sistemaUsuariosContext>));
-                services.Remove(descriptor);
-
-                services.AddDbContext<sistemaUsuariosContext>(options =>
-                {
-                    options.UseInMemoryDatabase("sistemaUsuarios_MEM_02");
-                });
-
                 var sp = services.BuildServiceProvider();
 
                 using (var scope = sp.CreateScope())
@@ -40,9 +32,9 @@ namespace Tests.TransaccionesAPITests
 
                     try
                     {
-                        DatosDeMuestra.CrearUsuarios(_dbContext);
-                        DatosDeMuestra.CrearCuentas(_dbContext);
-                        DatosDeMuestra.CrearTransacciones(_dbContext);
+                        //DatosDeMuestra.CrearUsuarios(_dbContext);
+                        //DatosDeMuestra.CrearCuentas(_dbContext);
+                        //DatosDeMuestra.CrearTransacciones(_dbContext);
                     }
                     catch (Exception e)
                     {
