@@ -58,18 +58,18 @@ namespace Tests
         //    Assert.AreEqual(response, "RESPUESTA A TESTEAR");
         //}
 
-        [Test]
-        public void TestIntegracionExterna_PostTransaccion_Return201Created()
-        {
-            var client = new RestClient("https://localhost:44396/api/transacciones");
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", "{\n\t\"codigoUsuario\":\"12345678-9\",\n\t\"codigoCuenta\":\"12345678\",\n\t\"monto\":10000\n}", ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
+        //[Test]
+        //public void TestIntegracionExterna_PostTransaccion_Return201Created()
+        //{
+        //    var client = new RestClient("https://localhost:44396/api/transacciones");
+        //    var request = new RestRequest(Method.POST);
+        //    request.AddHeader("Content-Type", "application/json");
+        //    request.AddParameter("application/json", "{\n\t\"codigoUsuario\":\"12345678-9\",\n\t\"codigoCuenta\":\"12345678\",\n\t\"monto\":10000\n}", ParameterType.RequestBody);
+        //    IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual("Created", response.StatusCode.ToString());
+        //    Assert.AreEqual("Created", response.StatusCode.ToString());
 
-        }
+        //}
 
 
 
