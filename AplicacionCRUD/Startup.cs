@@ -1,5 +1,5 @@
 using AplicacionCRUD.Models;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +26,12 @@ namespace AplicacionCRUD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(config =>
+            {
+                config.Cookie.Name = "Cookie.Basics";
+                config.LoginPath = "/Home/Login";
+            });
+
             services.AddDbContext<sistemaUsuariosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConexionDB")));
 
             services.AddControllersWithViews();
@@ -48,7 +54,7 @@ namespace AplicacionCRUD
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

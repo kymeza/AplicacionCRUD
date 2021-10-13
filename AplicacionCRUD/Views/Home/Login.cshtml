@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2><font color="red">Iniciar Sesión (QA)</font></h2>
+
+<div class="container">
+
+    @{
+        if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+    }
+
+    @using (Html.BeginForm("LoginPOST", "Home"))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <div class="row">
+            <div class="col-sm-5" style="">
+
+                <div class="form-group" style="position: static;">
+                    <label><span class="label label-primary">E-Mail</span></label>
+                    <input type="text" name="email" value="" class="form-control" />
+                </div>
+
+                <div class="form-group" style="position: static;">
+                    <label><span class="label label-primary">Contraseña</span></label>
+                    <input type="password" name="password" value="" class="form-control" />
+                </div>
+                <div class="form-group" style="position: static;">
+                    <button class="btn btn-success">Iniciar Sesion</button>
+                </div>
+
+                <style>
+                    .label {
+                        background-color: #337ab7;
+                        font-size: 16px;
+                        min-width: 110px;
+                        display: inline-block;
+                    }
+                </style>
+            </div>
+        </div>
+    }
+</div>
