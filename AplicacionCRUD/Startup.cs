@@ -28,7 +28,7 @@ namespace AplicacionCRUD
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(config =>
             {
-                config.Cookie.Name = "Cookie.Basics";
+                config.Cookie.Name = "SessionID";
                 config.LoginPath = "/Home/Login";
             });
 
